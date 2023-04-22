@@ -54,52 +54,52 @@ public class bitcoinHolder
 
 
 
-    public String getNum()
+    public String GetNum()
     {
         return accountNumber;
     }
 
-    public int getPin()
+    public int GetPin()
     {
         return pin;
     }
 
 
-    public String getFirstName()
+    public String GetFirstName()
     {
         return firstName;
     }
 
-    public String getLastName()
+    public String GetLastName()
     {
         return lastName;
     }
-    public double getBalance()
+    public double GetBalance()
     {
         return balance;
     }
 
-    public void setNum(String newAccNum)
+    public void SetNum(String newAccNum)
     {
         accountNumber = newAccNum;
     }
 
-    public void setPin(int newPin)
+    public void SetPin(int newPin)
     {
         pin = newPin;
     }
 
-    public void setFirstName(String newFirstName)
+    public void SetFirstName(String newFirstName)
     {
         firstName = newFirstName;
     }
 
-    public void setLastName(String newLastName)
+    public void SetLastName(String newLastName)
     {
         lastName = newLastName;
     }
 
-    public void setBalance(double newBalance)
+    public void SetBalance(double newBalance)
     {
         balance = newBalance;
     }
@@ -114,8 +114,8 @@ public class bitcoinHolder
             string query = "UPDATE bitcoinHolders SET balance = @balance WHERE accountNumber = @accountNumber";
             using (SQLiteCommand command = new SQLiteCommand(query, connection))
             {
-                command.Parameters.AddWithValue("@balance", holder.getBalance());
-                command.Parameters.AddWithValue("@accountNumber", holder.getNum());
+                command.Parameters.AddWithValue("@balance", holder.GetBalance());
+                command.Parameters.AddWithValue("@accountNumber", holder.GetNum());
                 command.ExecuteNonQuery();
             }
         }
@@ -144,9 +144,9 @@ public class bitcoinHolder
             {
                 Console.WriteLine("Invalid format, please try again:");
             }
-            currentUser.setBalance(deposit + currentUser.getBalance());
+            currentUser.SetBalance(deposit + currentUser.GetBalance());
             UpdateBalanceInDatabase(currentUser);
-            Console.WriteLine("Thank you for your deposit. Your new balance is: " + currentUser.getBalance());
+            Console.WriteLine("Thank you for your deposit. Your new balance is: " + currentUser.GetBalance());
         }
 
         void withdraw(bitcoinHolder currentUser)
@@ -158,11 +158,11 @@ public class bitcoinHolder
                 Console.WriteLine("Invalid input format, please try again:");
             }
             //check if we got enough of a balance
-            if (currentUser.getBalance() >= withdraw) 
+            if (currentUser.GetBalance() >= withdraw) 
             {
-                currentUser.setBalance(currentUser.getBalance() - withdraw);
+                currentUser.SetBalance(currentUser.GetBalance() - withdraw);
                 UpdateBalanceInDatabase(currentUser);
-                Console.WriteLine("You're all set. Your new balance is: " + currentUser.getBalance());
+                Console.WriteLine("You're all set. Your new balance is: " + currentUser.GetBalance());
             } else
             {
                 string insufficientFunds = "Insufficient funds >:(";
@@ -177,7 +177,7 @@ public class bitcoinHolder
 
         void balance(bitcoinHolder currentUser)
         {
-            Console.WriteLine("Your balance is: " + currentUser.getBalance());
+            Console.WriteLine("Your balance is: " + currentUser.GetBalance());
         }
 
         List<bitcoinHolder> bitcoinHolders = GetBitcoinHoldersFromDatabase();
@@ -228,7 +228,7 @@ public class bitcoinHolder
             {
                 userPin = int.Parse(Console.ReadLine());
                 //check list
-                if (currentUser.getPin() == userPin)
+                if (currentUser.GetPin() == userPin)
                 {
                     break;
                 }
