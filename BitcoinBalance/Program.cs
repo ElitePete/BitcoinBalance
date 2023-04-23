@@ -24,7 +24,7 @@ public class bitcoinHolder
     {
         List<bitcoinHolder> bitcoinHolders = new List<bitcoinHolder>();
 
-        string connectionString = @"Data Source=C:\Users\subpa\OneDrive\Documents\PracticeDB\bitcoinbalancedb.db;";
+        string connectionString = @"Data Source=C:\Users\subpa\Documents\PracticeDBs\cryptodb\bitcoinbalancedb.db;";
         using (SQLiteConnection connection = new SQLiteConnection(connectionString))
         {
             connection.Open();
@@ -51,6 +51,44 @@ public class bitcoinHolder
 
         return bitcoinHolders;
     }
+
+
+    //hide pin
+    public static int ReadPassword()
+    {
+        string password = "";
+        ConsoleKeyInfo info = Console.ReadKey(true);
+
+        while (info.Key != ConsoleKey.Enter)
+        {
+            if (info.Key != ConsoleKey.Backspace)
+            {
+                Console.Write("*");
+                password += info.KeyChar;
+            }
+            else if (info.Key == ConsoleKey.Backspace)
+            {
+                if (!string.IsNullOrEmpty(password))
+                {
+                    password = password.Substring(0, password.Length - 1);
+                    int pos = Console.CursorLeft;
+                    Console.SetCursorPosition(pos - 1, Console.CursorTop);
+                    Console.Write(" ");
+                    Console.SetCursorPosition(pos - 1, Console.CursorTop);
+                }
+            }
+            info = Console.ReadKey(true);
+        }
+        Console.WriteLine();
+
+        int pin = 0;
+        int.TryParse(password, out pin);
+
+        return pin;
+    }
+
+
+
 
 
 
@@ -106,7 +144,7 @@ public class bitcoinHolder
 
     public static void UpdateBalanceInDatabase(bitcoinHolder holder)
     {
-        string connectionString = @"Data Source=C:\Users\subpa\OneDrive\Documents\PracticeDB\bitcoinbalancedb.db;";
+        string connectionString = @"Data Source=C:\Users\subpa\Documents\PracticeDBs\cryptodb\bitcoinbalancedb.db;"; 
         using (SQLiteConnection connection = new SQLiteConnection(connectionString))
         {
             connection.Open();
@@ -226,7 +264,7 @@ public class bitcoinHolder
         {
             try
             {
-                userPin = int.Parse(Console.ReadLine());
+                userPin = ReadPassword();
                 //check list
                 if (currentUser.GetPin() == userPin)
                 {
